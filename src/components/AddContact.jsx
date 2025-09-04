@@ -36,7 +36,6 @@ function AddContact() {
         updateData();
         setContacts(prev => [...prev, contact])
         setContact(emptyContact)
-        // navigate('/')
     }
 
     const editContact = (c) => {

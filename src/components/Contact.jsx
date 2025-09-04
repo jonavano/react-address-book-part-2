@@ -26,6 +26,7 @@ function Contact({contact, id}) {
     return <>
     <p>{contact.firstName + " " + contact.lastName}</p>
     <Link to={`/profile/${id}`}><p>View</p></Link>
+
     <button onClick={editUser}>Edit</button>
 
     <button onClick={deleteUser}>Delete</button>

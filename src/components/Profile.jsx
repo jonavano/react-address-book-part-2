@@ -24,9 +24,22 @@ function Profile() {
     }
 
     return <>
+    <div>
+
         <h2>{contact.firstName + " " + contact.lastName} </h2>
         <p>{contact.street + " " + contact.city}</p>
             <button onClick={deleteUser}>Delete</button>
+    </div>
+    <div>{contact.gender}</div>
+        <div>{contact.email}</div>
+            <div>{contact.jobTitle}</div>
+                <div>{contact.favouriteColour}</div>
+                    <img
+                    src={contact.profileImage}
+                    />
+
+
+
 
     </>
 }
