@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { ContactContext } from "../App";
+import { useParams, useNavigate } from 'react-router-dom'
+
 
 function AddContact() {
-    const emptyContact = { firstName: '', lastName: '',street:'', city:'' }
+    const { setContacts, url,contacts } = useContext(ContactContext);
+    const { id } = useParams();
+    const navigate = useNavigate();
 
+    let emptyContact = { firstName: '', lastName: '',street:'', city:'' }
+    // console.log(id)
     const [contact, setContact] = useState(emptyContact);
-    const { setContacts, url } = useContext(ContactContext)
-    
+
+    useEffect(() => {
+        if(!id) return;
+        const contactToEdit = contacts.filter((c) => String(c.id) === id)[0];
+        if (contactToEdit) {
+            setContact(contactToEdit)
+        }
+    }, [id, contacts])
 
     const addContact = (c) => {
         c.preventDefault()
@@ -24,11 +36,38 @@ function AddContact() {
         updateData();
         setContacts(prev => [...prev, contact])
         setContact(emptyContact)
+        // navigate('/')
+    }
+
+    const editContact = (c) => {
+        c.preventDefault()
+        
+        const updateData = async () => {
+            await fetch(url +'/'+ id,
+                {
+                    method:'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:JSON.stringify(contact)
+                }
+            );
+        };
+        updateData();
+        setContacts(prev => prev.map(c => c.id === contact.id ? contact : c));
+        
+        navigate('/')
+    }
+    const submitContact = (c) => {
+        c.preventDefault();
+        if (!id) {
+            addContact(c);
+        } else {
+            editContact(c)
+        }
     }
 
     return <>
         <h1>Add contact</h1>
-        <form onSubmit={addContact}>
+        <form onSubmit={submitContact}>
             <h3>first name</h3>
             <div>
                 <textarea
@@ -74,7 +113,7 @@ function AddContact() {
 
 
             <div>
-                <button type="submit">add contact</button>
+                <button type="submit">save</button>
             </div>
 
         </form>

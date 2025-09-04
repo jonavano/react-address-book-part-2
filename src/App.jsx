@@ -47,6 +47,8 @@ function App() {
                         <Route path='/' element={<ContactList />} />
                         <Route path='/add' element={<AddContact />} />
                         <Route path='/profile/:id' element={<Profile />} />
+                        <Route path='/profile/:id/update' element={<AddContact />} />
+
                     </Routes>
                 </ContactContext.Provider>
             </section>
